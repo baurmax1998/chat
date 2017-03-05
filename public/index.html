@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.IO Chat Example</title>
+    <link rel="stylesheet" href="assets/css/jquery.atwho.css">
+    <link rel="stylesheet" href="assets/css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/chat.css">
+    <!--    <link rel="stylesheet" href="style.css"> </head>-->
+</head>
+
+<body>
+    <!--    loging-->
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-center">
+                <br> <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">&times;</span> <img src="./assets/icons/smile.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top"> </div>
+            <form class="w3-container">
+                <div class="w3-section">
+                    <label><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom usernameInput" type="text" placeholder="Enter Username" name="usrname" required>
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="psw" required>
+                    <button class="w3-btn-block w3-green w3-section w3-padding" type="button">Login</button>
+                    <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me </div>
+            </form>
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button> <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span> </div>
+        </div>
+    </div>
+    <!--    chat auswahl-->
+    <div id="modal01" class="w3-modal w3-display-container w3-row">
+        <div class="w3-modal-content w3-animate-zoom w3-display-topright w3-col m4 l3">
+            <input class="w3-input w3-border w3-padding" type="text" placeholder="Search for names.." id="myInput" onkeyup="filterLiElements()"><span onclick="$('#modal01').hide()" class="w3-closebtn w3-hover-red w3-container w3-padding-4 w3-display-topright">&times;</span>
+            <ul id="myUL" class="w3-ul w3-card-4">
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Mike</span>
+                    <br> <span>Web Designer</span> </li>
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Jill</span>
+                    <br> <span>Support</span> </li>
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Jane</span>
+                    <br> <span>Accountant</span> </li>
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Mike</span>
+                    <br> <span>Web Designer</span> </li>
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Jill</span>
+                    <br> <span>Support</span> </li>
+                <li class="w3-padding-16"> <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">&times;</span> <img src="./assets/icons/smile.png" class="w3-left w3-circle w3-margin-right" style="width:60px"> <span class="w3-xlarge">Jane</span>
+                    <br> <span>Accountant</span> </li>
+            </ul>
+        </div>
+    </div>
+    <!--    chat fenster-->
+    <div class="w3-main">
+        <div class="w3-container w3-top w3-black w3-bar"> <span class="w3-opennav w3-xlarge" onclick="" id="openNav">&#9776;</span><span class="w3-xlarge">  ChatWeb</span> <i class="w3-padding-8 w3-right w3-xlarge fa fa-search" onclick="document.getElementById('modal01').style.display='block'"></i>
+            <div class="w3-bar w3-dark-grey">
+                <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'London')">London<span class="w3-badge w3-margin-left">2</span> </button>
+                <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Paris')">Paris<span class="w3-badge w3-margin-left w3-white">2</span> </button>
+                <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Tokyo')">Tokyo<span class="w3-badge w3-margin-left w3-white">1</span></button>
+            </div>
+        </div>
+        <div class="chat-container ">
+            <div class="chatArea ">
+                <ul class="messages"></ul>
+            </div>
+        </div>
+        <div id="inputArea" class="w3-container w3-bottom w3-display-container w3-black">
+            <div id="editable" class="inputor w3-dark-grey w3-round-large w3-padding w3-padding-16 w3-text-red w3-display-middle inputMessage w3-col m9 l10" contentEditable="true"></div>
+            <button class="w3-margin-right w3-display-right w3-btn-floating-large w3-red">></button>
+        </div>
+    </div>
+    <!--
+    <div class="w3-col m8 l9">
+        <div class="chatArea">
+            <ul class="messages"></ul>
+        </div>
+        <div class="w3-row">
+            <div id="editable" class="inputor inputMessage w3-col m10 l11" contentEditable="true"></div>
+            <button class="w3-col m2 l1">>>></button>
+        </div>
+    </div>
+    <div class="login page">
+        <div class="form">
+            <h3 class="title">What's your nickname?</h3>
+            <input class="usernameInput" type="text" maxlength="14" /> </div>
+    </div>
+-->
+    <script type="text/javascript" src="./assets/js/jquery.js"></script>
+    <script type="text/javascript" src="assets/js/scrollIntoView.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery.caret.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery.atwho.js"></script>
+    <script type="text/javascript" src="./socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./assets/js/socialPage.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById('id01').style.display = 'block';
+        });
+        jQuery.expr[':'].contains = function (a, i, m) {
+            return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        function filterLiElements() {
+            $("#myUL li").hide();
+            $("#myUL li:contains('" + $("#myInput").val() + "')").show();
+        }
+
+        function openCity(evt, cityName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " w3-red";
+        }
+
+        function w3_open() {}
+
+        function w3_close() {}
+    </script>
+    <!--    todo https://www.w3schools.com/w3css/w3css_display.asp-->
+    <!--    todo https://www.w3schools.com/w3css/w3css_badges.asp-->
+    <!--    todo https://www.w3schools.com/w3css/w3css_icons.asp-->
+    <!--    todo https://www.w3schools.com/w3css/w3css_tabulators.asp-->
+    <!--    todo https://www.w3schools.com/w3css/w3css_modal.asp-->
+</body>
+
+</html>
