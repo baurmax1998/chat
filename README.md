@@ -1,15 +1,12 @@
 
-# Socket.IO Chat
+# Web Chat
 
-A simple chat demo for socket.io
+A Chat 
 
 ## How to use
 
 ```
-$ cd socket.io
-$ npm install
-$ cd examples/chat
-$ npm install
+$ cd chat
 $ npm start
 ```
 
@@ -18,8 +15,4 @@ a port by supplying the `PORT` env variable.
 
 ## Features
 
-- Multiple users can join a chat room by each entering a unique username
-on website load.
-- Users can type chat messages to the chat room.
-- A notification is sent to all users when a user joins or leaves
-the chatroom.
+- public chat with multiple users

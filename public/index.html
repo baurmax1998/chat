@@ -94,6 +94,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             document.getElementById('id01').style.display = 'block';
+            $(".usernameInput").focus();
         });
         jQuery.expr[':'].contains = function (a, i, m) {
             return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;

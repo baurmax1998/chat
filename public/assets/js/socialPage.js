@@ -1,4 +1,15 @@
 $(function () {
+    var data = {
+        name: "John"
+        , location: "Boston"
+    };
+    $.ajax({
+        method: "GET"
+        , url: "/test"
+        , data: JSON.stringify(data)
+    }).done(function (msg) {
+        console.log(msg);
+    });
     var FADE_TIME = 150; // ms
     var TYPING_TIMER_LENGTH = 400; // ms
     var COLORS = [
@@ -21,11 +32,12 @@ $(function () {
     var lastTypingTime;
     var $currentInput = $usernameInput.focus();
     var socket = io();
+    var socket = io('/my-namespace');
     $.fn.atwho.debug = true;
     var emojis = ["smile"];
-    var names = ["Jacob", "Isabella", "Ethan", "Emma", "Michael", "Olivia", "Alexander", "Sophia", "William", "Ava", "Joshua", "Emily", "Daniel", "Madison", "Jayden", "Abigail", "Noah", "Chloe"];
+    var users = ["Jacob", "Isabella", "Ethan", "Emma", "Michael", "Olivia", "Alexander", "Sophia", "William", "Ava", "Joshua", "Emily", "Daniel", "Madison", "Jayden", "Abigail", "Noah", "Chloe"];
     //create mock data
-    var names = $.map(names, function (value, i) {
+    var users = $.map(users, function (value, i) {
         return {
             'id': i
             , 'name': value
@@ -35,24 +47,22 @@ $(function () {
     var emojis = $.map(emojis, function (value, i) {
         return {
             id: value
-            , key: value
             , name: value
+            , link: value
         }
     });
     var at_config = {
         at: "@"
-        , data: names
+        , data: users
         , headerTpl: '<div class="atwho-header">Member List<small>↑&nbsp;↓&nbsp;</small></div>'
         , insertTpl: '<span class="inserted" data-atwho-at-value="${id}">${name}</span>'
         , displayTpl: "<li>${name} <small>${email}</small></li>"
-        , limit: 200
     }
     var emoji_config = {
         at: ":"
         , data: emojis
-        , displayTpl: "<li>${name} <img src='assets/icons/${key}.png'  height='20' width='20' /></li>"
-        , insertTpl: "<img class='inserted' data-atwho-at-value='${id}' src='assets/icons/${name}.png'  height='20' width='20' />"
-        , delay: 400
+        , displayTpl: "<li>${name} <img src='assets/icons/${link}.png'  height='20' width='20' /></li>"
+        , insertTpl: "<img class='inserted' data-atwho-at-value='${id}' src='assets/icons/${link}.png'  height='20' width='20' />"
     }
     var atWhoConfigList = [at_config, emoji_config];
     $(atWhoConfigList).each(function () {
@@ -69,7 +79,6 @@ $(function () {
         $inputMessage.html("");
         return cleanMessageText;
     }
-    var text = ":smile:‍ @0@‍";
 
     function parse(text, atWhoConfigList) {
         var splitText = text.split(" ");
@@ -93,7 +102,6 @@ $(function () {
         }
         return splitText.join(" ");
     }
-    parse(text, atWhoConfigList);
 
     function addParticipantsMessage(data) {
         var message = '';
@@ -252,6 +260,7 @@ $(function () {
             }
             else {
                 setUsername();
+                document.getElementById('id01').style.display = 'none';
             }
         }
     });
